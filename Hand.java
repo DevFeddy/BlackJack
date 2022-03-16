@@ -33,18 +33,22 @@ public class Hand
     }
     
     public int calculateValue() {
-         Stream<Card.CardValue> cardValueStream = cards.stream().map(card -> card.getCardValue());
+         List<Card.CardValue> cardValues = cards.stream().map(card -> card.getCardValue()).collect(Collectors.toList());
          
-         int simpleValue = cardValueStream.mapToInt(cv -> cv.getValue()).sum();
+         int simpleValue = cardValues.stream().mapToInt(cv -> cv.getValue()).sum();
          if (simpleValue <= 21) {
         	 return simpleValue;
          }
-        //TODO 
          
-         int aceAmount = (int) cardValueStream.filter(cv -> cv.equals(Card.CardValue.Ass)).count();
+         int aceAmount = (int) cardValues.stream().filter(cv -> cv.equals(Card.CardValue.Ass)).count();
+         
+         while (aceAmount > 0 && simpleValue > 21) {
+           simpleValue -= 10;
+           aceAmount--;
+         }
        
          
-         return 0;
+         return simpleValue;
     }
     
     public List<Card> getCards() {
