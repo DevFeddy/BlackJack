@@ -10,7 +10,7 @@ public class Wallet
         this.coins = this.coins + coinsToAdd;
     }
 
-    public void removeCoins(coinsToRemove){
+    public void removeCoins(int coinsToRemove){
        this.coins = this.coins - coinsToRemove;
     }
     public int getcurrentWallet(){
