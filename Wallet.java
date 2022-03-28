@@ -5,7 +5,6 @@
 public class Wallet
 {
     int coins;
-    Player betvalue;
     public void addCoins(int coinsToAdd){
         this.coins = this.coins + coinsToAdd;
     }
@@ -13,7 +12,7 @@ public class Wallet
     public void removeCoins(int coinsToRemove){
        this.coins = this.coins - coinsToRemove;
     }
-    public int getcurrentWallet(){
+    public int getcurrentAmount(){
     return this.coins;
     }
 }
