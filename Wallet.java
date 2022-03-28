@@ -1,19 +1,20 @@
 /**
- * @Benjamin
+ * @revox
  */
 
 public class Wallet
 {
     int coins;
     Player betvalue;
-    public void addCoins(){
-        //add profit and bet value
-        System.out.println(betvalue);
+    public void addCoins(int coinsToAdd){
+        this.coins = this.coins - coinsToAdd;
     }
 
-    public void removeCoins(){
-        //remove bet value
-        System.out.println(betvalue);
+    public void removeCoins(coinsToRemove){
+       this.coins = thiscoins - coinsToRemove;
+    }
+    public int getcurrentWallet(){
+    return this.coins;
     }
 }
 
