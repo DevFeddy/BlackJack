@@ -1,3 +1,4 @@
+package game;
 import java.util.List;
 
 /**
@@ -18,6 +19,10 @@ public class Coupier
       return hand.getCards().get(1);
   }
   
+  /**
+   * should add cards from leftover cards to hand till the value is <= 17
+   * @param cards the left over cards from the game
+   */
   public void action(List<Card> cards){
       if (hand.calculateValue() <= 17){
            Card.takeCardFromCards(List<Card> cards);

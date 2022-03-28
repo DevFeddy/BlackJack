@@ -1,3 +1,4 @@
+package game;
 /**
  * @author (Jannis)
  */
@@ -18,6 +19,10 @@ public class GameSettings{
         this.threeOfSeven = threeOfSeven;
         this.maxSplits = maxSplits;
         this.maxPlayer = maxPlayer;
+    }
+
+    public int getMaxPlayer() {
+        return maxPlayer;
     }
 }
 

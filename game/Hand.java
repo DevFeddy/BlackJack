@@ -1,7 +1,6 @@
+package game;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import java.util.Arrays;
 
 /**
@@ -49,6 +48,10 @@ public class Hand
        
          
          return simpleValue;
+    }
+
+    public void addCard(Card card) {
+      this.cards.add(card);
     }
     
     public List<Card> getCards() {
