@@ -11,7 +11,7 @@ public class Wallet
     }
 
     public void removeCoins(coinsToRemove){
-       this.coins = thiscoins - coinsToRemove;
+       this.coins = this.coins - coinsToRemove;
     }
     public int getcurrentWallet(){
     return this.coins;
