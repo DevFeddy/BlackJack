@@ -6,6 +6,11 @@ package game;
 public class Wallet
 {
     int coins;
+    
+    public Wallet() {
+    	this.coins = 100;
+    }
+    
     public void addCoins(int coinsToAdd){
         this.coins = this.coins + coinsToAdd;
     }

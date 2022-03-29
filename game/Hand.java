@@ -1,7 +1,8 @@
 package game;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Arrays;
 
 /**
  * @author Frederik
@@ -11,7 +12,15 @@ public class Hand
     List<Card> cards;
     boolean splitted;
     int bet;
-    boolean finished;
+    private boolean finished;
+    private int cardValue;
+    
+    public Hand(int bet) {
+    	this.cards = new ArrayList<>();
+    	this.bet = bet;
+    	this.splitted = false;
+    	this.finished = false;
+    }
     
     public Hand(List<Card> cards, int bet, boolean splitted, boolean finished) {
     	this.cards = cards; 
@@ -30,8 +39,20 @@ public class Hand
 			return null;
 		}
     }
+
+    public int getBet() {
+        return bet;
+    }
+
+    public void finish() {
+      this.finished = true;
+      this.cardValue = this.calculateValue();
+    }
     
     public int calculateValue() {
+      if (finished) {
+        return this.cardValue;
+      }
          List<Card.CardValue> cardValues = cards.stream().map(card -> card.getCardValue()).collect(Collectors.toList());
          
          int simpleValue = cardValues.stream().mapToInt(cv -> cv.getValue()).sum();

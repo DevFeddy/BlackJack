@@ -37,6 +37,11 @@ public class Card {
         return color;
     }
     
+    @Override
+    public String toString() {
+    	return String.format("%s (%s)", this.cardValue.getName(), this.getColor());
+    }
+    
     public enum CardValue {
         Ass("Ass", 11), 
         Bube("Bube", 10), 

@@ -1,11 +1,14 @@
 package game;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
  * Write a description of class Game here.
  *
- * @author (your name)
+ * @author Frederik
  * @version (a version number or a date)
  */
 public class Game
@@ -16,12 +19,21 @@ public class Game
 
     boolean betRound;
     Coupier coupier;
+    
+    GameSettings gameSettings;
+    
+    Map<Player, PlayerEndInfo> result;
 
-    public Game(Player... players) {
+    public Game(GameSettings gameSettings, Player... players) {
+    	this.gameSettings = gameSettings;
         this.players = players;
         this.currentPlayerIndex = 0;
         this.coupier = new Coupier();
     }
+    
+    public Coupier getCoupier() {
+		return coupier;
+	}
 
     /**
      * sets Bets of the different players
@@ -29,6 +41,7 @@ public class Game
     public void setBet(Player player, int bet) {
         player.setBet(bet);
     }
+
 
     /**
      * ends the betting phase
@@ -38,6 +51,21 @@ public class Game
         this.cards = Card.generateCardDeck();
         for (int i = 0; i < 6; i++) { //TODO 7 Decks?
             this.cards.addAll(Card.generateCardDeck());
+        }
+        
+        for (Player p : players) {
+        	Hand hand = new Hand(p.getInitialBet());
+        	p.getHands().add(hand);
+        	for (int i = 0; i < 2; i++) {
+	        	hand.addCard(takeCardFromCards(this.cards));
+        	}
+        }
+        for (int i = 0; i < 2; i++) {
+        	this.coupier.getHand().addCard(takeCardFromCards(this.cards));
+        }
+        
+        while(this.getCurrentPlayer().getCurrentHand().calculateValue() >= 21) {
+        	this.stop();
         }
     }
 
@@ -49,6 +77,16 @@ public class Game
     public Card takeCard() {
         Card card = Game.takeCardFromCards(this.cards);
         this.getCurrentPlayer().getCurrentHand().addCard(card);
+        
+        //check for win
+        if (this.getCurrentPlayer().getCurrentHand().calculateValue() >= 21) {
+        	this.stop();
+        } else if (this.gameSettings.isFiveCardCharlie() 
+        		&& this.getCurrentPlayer().getCurrentHand().getCards().size() == 5) {
+        	this.stop();
+        }
+        
+        //TODO three of seven
         return card;
     }
 
@@ -96,6 +134,7 @@ public class Game
      * if last player -> calls onEnd
      */
     private void nextPlayer() {
+    	this.getCurrentPlayer().setFinished(true);
         if (!(++this.currentPlayerIndex < players.length)) {
             this.onEnd();
         }
@@ -106,8 +145,32 @@ public class Game
      * calls the coupier
      * evaluates the results and bets of the game
      */
-    private void onEnd() {
-        
+    private Map<Player, PlayerEndInfo> onEnd() {
+        coupier.action(this.cards);
+
+        Map<Player, PlayerEndInfo> infoMap = new HashMap<>();
+
+        for (Player p : players) {
+            PlayerEndInfo pInfo = new PlayerEndInfo();
+            for (Hand hand : p.getHands()) {
+                HandEndInfo hInfo;
+                if (this.coupier.getHand().calculateValue() > 21 ||
+                		(hand.calculateValue() > this.coupier.getHand().calculateValue()
+                				&& hand.calculateValue() <= 21)) {
+                    hInfo = new HandEndInfo(hand, hand.getBet());
+                } else if (hand.calculateValue() == this.coupier.getHand().calculateValue()) {
+                    hInfo = new HandEndInfo(hand, 0);
+                } else {
+                    hInfo = new HandEndInfo(hand, - hand.getBet());
+                } //TODO check for fivecard-charlie
+                pInfo.addHandInfo(hInfo);
+                pInfo.addBetResult(hInfo.getBet());
+            }
+            infoMap.put(p, pInfo);
+        }
+
+        //TODO wallet handling
+        return (this.result = infoMap);
     }
 
 
@@ -133,5 +196,52 @@ public class Game
     
     public int getPlayerIndex() {
     	return this.currentPlayerIndex;
+    }
+    
+    public Map<Player, PlayerEndInfo> getResult() {
+		return result;
+	}
+    
+    
+    
+    
+
+    public static class PlayerEndInfo {
+        public int betResult;
+
+        public List<HandEndInfo> handsInfo = new ArrayList<>();
+
+        public void addHandInfo(HandEndInfo hInfo) {
+            this.handsInfo.add(hInfo);
+        }
+
+        public void addBetResult(int value) {
+            this.betResult += value;
+        }
+
+        public int getBetResult() {
+            return this.betResult;
+        }
+
+        public List<HandEndInfo> getHandInfo() {
+            return this.handsInfo;
+        }
+    }
+
+    public static class HandEndInfo {
+        public int bet;
+        private Hand hand;
+
+        public HandEndInfo(Hand hand, int bet) {
+            this.bet = bet;
+        }
+
+        public int getBet() {
+            return bet;
+        }
+        
+        public Hand getHand() {
+			return hand;
+		}
     }
 }
