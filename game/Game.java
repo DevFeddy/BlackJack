@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Write a description of class Game here.
+ * The class where all the methods to play the game are
  *
  * @author Frederik
- * @version (a version number or a date)
  */
 public class Game
 {
@@ -22,7 +21,7 @@ public class Game
     
     GameSettings gameSettings;
     
-    Map<Player, PlayerEndInfo> result;
+    Map<Player, PlayerEndInfo> result = null;
 
     public Game(GameSettings gameSettings, Player... players) {
     	this.gameSettings = gameSettings;
@@ -31,6 +30,10 @@ public class Game
         this.coupier = new Coupier();
     }
     
+    public GameSettings getGameSettings() {
+		return gameSettings;
+	}
+    
     public Coupier getCoupier() {
 		return coupier;
 	}
@@ -38,13 +41,13 @@ public class Game
     /**
      * sets Bets of the different players
      */
-    public void setBet(Player player, int bet) {
-        player.setBet(bet);
+    public boolean setBet(Player player, int bet) {
+        return player.setBet(bet);
     }
 
 
     /**
-     * ends the betting phase
+     * ends the betting phase &
      * starts the distribution of the first two cards two all players and the coupier
      */
     public void setup() {
@@ -64,14 +67,16 @@ public class Game
         	this.coupier.getHand().addCard(takeCardFromCards(this.cards));
         }
         
-        while(this.getCurrentPlayer().getCurrentHand().calculateValue() >= 21) {
+        while(this.getCurrentPlayer().getCurrentHand().calculateValue() >= 21 && this.getResult() == null) {
         	this.stop();
         }
     }
 
     /**
-     * adds a card to the current hand from all cards (var cards in this class)
-     * checks if the card deck is a win by the sum or other variants defined in the GameSettings
+     * <ul>
+     * <li>adds a card to the current hand from all cards</li>
+     * <li>checks if the card deck is a win by the sum or other variants defined in the {@link GameSettings}</li>
+     * </ul>
      * @return the taken card
      */
     public Card takeCard() {
@@ -91,8 +96,10 @@ public class Game
     }
 
     /**
-     * terminates the round of one hand -> increase hand Index in class Player
-     * if it's last hand of player -> next Player
+     * <ul>
+     * <li>terminates the round of one hand -> increase hand Index in class Player</li>
+     * <li>if it's last hand of player -> next Player</li>
+     * </ul>
      */
     public void stop() {
         if (!this.getCurrentPlayer().newHand()) {
@@ -129,9 +136,12 @@ public class Game
     }
 
     /**
+     * 
+     * <ul>
+     * <li> increases player index </li>
+     * <li> if last player -> calls onEnd </li>
+     * </ul>
      * called when a player is finished and it's the next players round
-     * increases player index 
-     * if last player -> calls onEnd
      */
     private void nextPlayer() {
     	this.getCurrentPlayer().setFinished(true);
@@ -141,9 +151,12 @@ public class Game
     }
 
     /**
-     * called on the end of the game 
-     * calls the coupier
-     * evaluates the results and bets of the game
+     * 
+     * <ul>
+     * <li>calls the coupier action </li>
+     * <li>evaluates the results and bets of the game</li>
+     * </ul>
+     * called on the end of the game
      */
     private Map<Player, PlayerEndInfo> onEnd() {
         coupier.action(this.cards);
@@ -162,14 +175,16 @@ public class Game
                     hInfo = new HandEndInfo(hand, 0);
                 } else {
                     hInfo = new HandEndInfo(hand, - hand.getBet());
-                } //TODO check for fivecard-charlie
+                } 
+                
+                //TODO check for fivecard-charlie
                 pInfo.addHandInfo(hInfo);
                 pInfo.addBetResult(hInfo.getBet());
             }
             infoMap.put(p, pInfo);
+            p.getWallet().addCoins(pInfo.getBetResult());
         }
-
-        //TODO wallet handling
+        
         return (this.result = infoMap);
     }
 
@@ -179,7 +194,9 @@ public class Game
     }
 
     /**
-     * @author Frederik
+     * chooses random card from list and removes the card from the list
+     * @param cards the list of card to draw a card from
+     * @return the drawn card
      */
     public static Card takeCardFromCards(List<Card> cards) {
         Random r = new Random();
@@ -205,7 +222,10 @@ public class Game
     
     
     
-
+    /**
+     * contains a list of {@link HandEndInfo} for the player & the total Bet-Result of player
+     *
+     */
     public static class PlayerEndInfo {
         public int betResult;
 
@@ -228,6 +248,9 @@ public class Game
         }
     }
 
+    /**
+     * contains betResult and the {@link Hand}
+     */
     public static class HandEndInfo {
         public int bet;
         private Hand hand;

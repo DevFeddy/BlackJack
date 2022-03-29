@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -32,18 +33,26 @@ public class MainClass {
 			players[i] = new Player(name);
 		}
 		
-		for (Player p : players) {
-			System.out.println("Set your Bet");
-			int bet = checkInt();
-			p.setBet(bet);
-		}
+		this.bettingPhase(players);
 		
 		this.game = new Game(GameSettings.defaultSettings(), players);
 	}
 	
 	
+	public void bettingPhase(Player[] players) {
+		for (Player p : players) {
+			System.out.println("Set your Bet " + p.getName());
+			int bet = checkInt();
+			while (!p.setBet(bet)) {
+				System.out.println("You bet must not exceed your current coin amount of " + p.getWallet().getcurrentAmount());
+				bet = checkInt();
+			}
+		}
+	}
 	
-
+	/**
+	 * starts the game after players are defined and betting phase is over
+	 */
 	public void start() {
 		this.game.setup();
 		System.out.println("The cards:\n");
@@ -108,6 +117,20 @@ public class MainClass {
 				System.out.println("'ve reached a DRAW");
 			}
 			System.out.println();
+		}
+		
+		System.out.println("Play another round with all players? y/n");
+		switch(scanner.nextLine().toLowerCase()) {
+		case "y": 
+			Player[] players = Arrays.stream(this.game.getPlayers()).map(Player::prepareForNewGame).toArray(Player[]::new);
+			this.bettingPhase(players);
+			this.game = new Game(this.game.getGameSettings(), players);
+			this.start();
+			break;
+		case "n":
+			for (Player p : this.game.getPlayers()) {
+				System.out.println(String.format("%s: %d coins", p.getName(), p.getWallet().getcurrentAmount()));
+			}
 		}
 	}
 	

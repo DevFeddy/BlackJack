@@ -32,8 +32,12 @@ public class Player
     	this.splits = 0;
     }
     
-    public void setBet(int bet) {
-        this.initialBet = bet;
+    public boolean setBet(int bet) {
+    	if (bet <= this.wallet.getcurrentAmount()) {
+            this.initialBet = bet;
+            return true;
+    	}
+		return false;
     }
     
     public int getInitialBet() {
@@ -68,4 +72,8 @@ public class Player
     public Player prepareForNewGame() {
     	return new Player(name, wallet);
     }
+    
+    public Wallet getWallet() {
+		return wallet;
+	}
 }
