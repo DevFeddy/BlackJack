@@ -21,7 +21,7 @@ public class MainClass {
 
 	public MainClass() {
 		this.scanner = new Scanner(System.in);
-		System.out.println("how many Player are playing?");
+		System.out.println("how many players are playing?");
 		int playerNumber = checkInt();
 		
 		Player[] players = new Player[playerNumber];
@@ -119,6 +119,10 @@ public class MainClass {
 			System.out.println();
 		}
 		
+		for (Player p : this.game.getPlayers()) {
+			System.out.println(String.format("%s: %d coins", p.getName(), p.getWallet().getcurrentAmount()));
+		}
+		
 		System.out.println("Play another round with all players? y/n");
 		switch(scanner.nextLine().toLowerCase()) {
 		case "y": 
@@ -128,9 +132,7 @@ public class MainClass {
 			this.start();
 			break;
 		case "n":
-			for (Player p : this.game.getPlayers()) {
-				System.out.println(String.format("%s: %d coins", p.getName(), p.getWallet().getcurrentAmount()));
-			}
+			
 		}
 	}
 	

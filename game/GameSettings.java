@@ -9,9 +9,6 @@ public class GameSettings{
     boolean threeOfSeven; 
     int maxSplits;
 
-    /**
-     * define with which rules and how many players you wanna play 
-     */
     public GameSettings(boolean fiveCardCharlie, boolean allowResplit, boolean threeOfSeven, int maxSplits){
         this.fiveCardCharlie = fiveCardCharlie;
         this.allowResplit = allowResplit;

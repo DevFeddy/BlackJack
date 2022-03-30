@@ -45,8 +45,8 @@ public class Hand
     }
 
     public void finish() {
-      this.finished = true;
-      this.cardValue = this.calculateValue();
+    	this.cardValue = this.calculateValue();
+    	this.finished = true;
     }
     
     public int calculateValue() {

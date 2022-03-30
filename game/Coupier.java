@@ -36,6 +36,7 @@ public class Coupier
            Card card = Game.takeCardFromCards(cards);
            hand.addCard(card);  
       }
+      this.hand.finish();
      
   }
  

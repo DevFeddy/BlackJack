@@ -33,7 +33,7 @@ public class Player
     }
     
     public boolean setBet(int bet) {
-    	if (bet <= this.wallet.getcurrentAmount()) {
+    	if (bet <= this.wallet.getcurrentAmount() && bet > 0) {
             this.initialBet = bet;
             return true;
     	}
@@ -69,6 +69,10 @@ public class Player
 		return finished;
 	}
     
+    /**
+     * takes name and wallet in new player object for the next game
+     * @return new Player object
+     */
     public Player prepareForNewGame() {
     	return new Player(name, wallet);
     }

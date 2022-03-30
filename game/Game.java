@@ -52,7 +52,7 @@ public class Game
      */
     public void setup() {
         this.cards = Card.generateCardDeck();
-        for (int i = 0; i < 6; i++) { //TODO 7 Decks?
+        for (int i = 0; i < 5; i++) {
             this.cards.addAll(Card.generateCardDeck());
         }
         
@@ -67,7 +67,7 @@ public class Game
         	this.coupier.getHand().addCard(takeCardFromCards(this.cards));
         }
         
-        while(this.getCurrentPlayer().getCurrentHand().calculateValue() >= 21 && this.getResult() == null) {
+        while(this.getResult() == null && this.getCurrentPlayer().getCurrentHand().calculateValue() >= 21) {
         	this.stop();
         }
     }
@@ -102,6 +102,7 @@ public class Game
      * </ul>
      */
     public void stop() {
+    	this.getCurrentPlayer().getCurrentHand().finish();
         if (!this.getCurrentPlayer().newHand()) {
             this.nextPlayer();
         }
@@ -167,17 +168,27 @@ public class Game
             PlayerEndInfo pInfo = new PlayerEndInfo();
             for (Hand hand : p.getHands()) {
                 HandEndInfo hInfo;
-                if (this.coupier.getHand().calculateValue() > 21 ||
-                		(hand.calculateValue() > this.coupier.getHand().calculateValue()
-                				&& hand.calculateValue() <= 21)) {
-                    hInfo = new HandEndInfo(hand, hand.getBet());
-                } else if (hand.calculateValue() == this.coupier.getHand().calculateValue()) {
-                    hInfo = new HandEndInfo(hand, 0);
+                System.out.println("Hand:" + hand.calculateValue());
+                System.out.println("Coupier:" + this.coupier.getHand().calculateValue());
+                if (hand.calculateValue() <= 21) {
+	                if (this.coupier.getHand().calculateValue() > 21 
+	                		|| hand.calculateValue() > this.coupier.getHand().calculateValue()) {
+	                	hInfo = new HandEndInfo(hand, hand.getBet());
+	                } else if (hand.calculateValue() == this.coupier.getHand().calculateValue()) {
+	                    hInfo = new HandEndInfo(hand, 0);
+	                } else {
+	                    hInfo = new HandEndInfo(hand, - hand.getBet());
+	                } 
+	                
+	                if (this.gameSettings.isFiveCardCharlie()) {
+	                	if (hand.getCards().size() == 5) {
+	                		hInfo = new HandEndInfo(hand, hand.getBet()); //TODO verhältnis
+	                	}
+	                }
                 } else {
-                    hInfo = new HandEndInfo(hand, - hand.getBet());
-                } 
+                	hInfo = new HandEndInfo(hand, - hand.getBet());
+                }
                 
-                //TODO check for fivecard-charlie
                 pInfo.addHandInfo(hInfo);
                 pInfo.addBetResult(hInfo.getBet());
             }
@@ -200,7 +211,6 @@ public class Game
      */
     public static Card takeCardFromCards(List<Card> cards) {
         Random r = new Random();
-        //TODO check if range of r is not maybe a bit to large
         int random = r.nextInt(cards.size());
         Card card = cards.get(random);
         cards.remove(random);
