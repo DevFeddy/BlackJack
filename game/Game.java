@@ -39,7 +39,7 @@ public class Game
 	}
 
     /**
-     * sets Bets of the different players
+     * sets Bets of players
      */
     public boolean setBet(Player player, int bet) {
         return player.setBet(bet);
@@ -48,7 +48,7 @@ public class Game
 
     /**
      * ends the betting phase &
-     * starts the distribution of the first two cards two all players and the coupier
+     * starts the distribution of the first two cards to all players and the coupier
      */
     public void setup() {
         this.cards = Card.generateCardDeck();
@@ -106,34 +106,6 @@ public class Game
         if (!this.getCurrentPlayer().newHand()) {
             this.nextPlayer();
         }
-    }
-
-    /**
-     * splits the hand if possible
-     * passes the split into the current hand class
-     */
-    public boolean split() {
-        //TODO
-        return false;
-    }
-
-    /**
-     * lets the whole player surrender
-     * skip round to the next player
-     * half the bet of his hand
-     * only possible before any card is drawn (hand unsplit and two cards in it)
-     */
-    public boolean surrender() {
-        //TODO
-        return false;
-    }
-
-    /**
-     * doubles the bet of one hand
-     */
-    public boolean doubleBet() {
-        //TODO
-        return false;
     }
 
     /**

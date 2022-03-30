@@ -49,6 +49,9 @@ public class CurrentHandPane extends JPanel{
 		setup();
 	}
 	
+	/**
+	 * setups the components
+	 */
 	public void setup() {
 		this.guiCoupCard = new GuiCard(this.coupierCard, this.getWidth()/2 - 55, 20);
 		this.unknownCard = new GuiCard("?", "?", this.getWidth()/2 + 5, 20);
@@ -80,6 +83,14 @@ public class CurrentHandPane extends JPanel{
 		
 	}
 		
+	/**
+	 * checks if 
+	 * <ul> 
+	 * <li>game is over</li>
+	 * <li>turn of hand is over</li>
+	 * <li>turn of player is over</li>
+	 * </ul>
+	 */
 	private void checkRound() {
 		if (this.game.getResult() != null) {
 			JOptionPane.showOptionDialog(this, "Spiel zuende", "Spiel", JOptionPane.YES_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
@@ -106,6 +117,10 @@ public class CurrentHandPane extends JPanel{
 		}
 	}
 	
+	/**
+	 * deletes the old cards from gui & draws either the cards of the current hand or coupier
+	 * @param coupier should it draw the coupier's hand
+	 */
 	private void drawHand(boolean coupier) {
 		if (coupier) {
 			this.remove(this.guiCoupCard);
@@ -141,6 +156,10 @@ public class CurrentHandPane extends JPanel{
 		this.repaint();
 	}
 	
+	/**
+	 * changes the stored {@link Hand} instance to the new Hand 
+	 * @param hand the new hand
+	 */
 	public void setupNewHand(Hand hand) {
 		this.hand = hand;
 		this.drawHand(false);

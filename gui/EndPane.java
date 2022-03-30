@@ -18,7 +18,15 @@ public class EndPane extends JPanel{
 	JButton startNewGame;
 	MainGui mainGui;
 	
-	
+	/**
+	 * draws the end screen
+	 * @param mainGui
+	 * @param endInfos 
+	 * @param x the x position
+	 * @param y the y position
+	 * @param width
+	 * @param height
+	 */
 	public EndPane(MainGui mainGui, Map<Player, PlayerEndInfo> endInfos, int x, int y, int width, int height) {
 		this.mainGui = mainGui;
 		this.setBounds(x, y, width, height);

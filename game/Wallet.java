@@ -1,6 +1,6 @@
 package game;
 /**
- * @revox
+ * @author revox
  */
 
 public class Wallet

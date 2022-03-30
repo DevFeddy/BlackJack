@@ -9,7 +9,6 @@ public class Player
     Wallet wallet;
     boolean finished;
     int currentHandIndex;
-    int splits;
     
     int initialBet;
     
@@ -29,7 +28,23 @@ public class Player
     	this.hands = new ArrayList<>();
     	this.finished = false;
     	this.currentHandIndex = 0;
-    	this.splits = 0;
+    }
+
+    /**
+     * change the hand to the next hand from the player
+     * @return the boolean if there is a next hand
+     */
+    public boolean newHand() {
+        return ++this.currentHandIndex < hands.size();
+        //return false if currenHandIndex exceeds List of Hand
+    }
+    
+    /**
+     * takes name and wallet in new player object for the next game
+     * @return new Player object
+     */
+    public Player prepareForNewGame() {
+    	return new Player(name, wallet);
     }
     
     public boolean setBet(int bet) {
@@ -40,22 +55,9 @@ public class Player
 		return false;
     }
     
-    public int getInitialBet() {
-		return initialBet;
+    public Wallet getWallet() {
+		return wallet;
 	}
-
-    public Hand getCurrentHand() {
-        return this.hands.get(this.currentHandIndex);
-    }
-    
-    public List<Hand> getHands() {
-    	return hands;
-    }
-
-    public boolean newHand() {
-        return ++this.currentHandIndex < hands.size();
-        //return false if currenHandIndex exceeds List of Hand
-    }
     
     public String getName() {
 		return name;
@@ -69,15 +71,15 @@ public class Player
 		return finished;
 	}
     
-    /**
-     * takes name and wallet in new player object for the next game
-     * @return new Player object
-     */
-    public Player prepareForNewGame() {
-    	return new Player(name, wallet);
+    public int getInitialBet() {
+		return initialBet;
+	}
+
+    public Hand getCurrentHand() {
+        return this.hands.get(this.currentHandIndex);
     }
     
-    public Wallet getWallet() {
-		return wallet;
-	}
+    public List<Hand> getHands() {
+    	return hands;
+    }
 }

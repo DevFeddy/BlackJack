@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class Hand
 {
     List<Card> cards;
-    boolean splitted;
     int bet;
     private boolean finished;
     private int cardValue;
@@ -18,37 +17,32 @@ public class Hand
     public Hand(int bet) {
     	this.cards = new ArrayList<>();
     	this.bet = bet;
-    	this.splitted = false;
     	this.finished = false;
     }
     
-    public Hand(List<Card> cards, int bet, boolean splitted, boolean finished) {
+    public Hand(List<Card> cards, int bet, boolean finished) {
     	this.cards = cards; 
     	this.bet = bet;
-    	this.splitted = splitted;
     	this.finished = finished;
-    }
-
-    public Hand split() {
-        
-    	// checks if the card values of the Cards are the same 
-    	if (this.cards.stream().map(card -> card.getCardValue()).collect(Collectors.toSet()).size() == 1
-    			&& this.cards.size() == 2) { // max 2 cards allowed in hand in order to split
-    				return new Hand(Arrays.asList(cards.get(0)), this.bet, true, false);
-		} else {
-			return null;
-		}
     }
 
     public int getBet() {
         return bet;
     }
 
+    /**
+     * set the handstate to finished
+     */
     public void finish() {
     	this.cardValue = this.calculateValue();
     	this.finished = true;
     }
     
+    /**
+     * calculates the value of the cards contained by the hand <br>
+     * if hand is finished, the last result is taken (nothing new is calculated then)
+     * @return the value
+     */
     public int calculateValue() {
       if (finished) {
         return this.cardValue;

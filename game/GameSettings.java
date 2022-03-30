@@ -1,6 +1,6 @@
 package game;
 /**
- * @author (Jannis)
+ * @author Jannis
  */
 public class GameSettings{
 
@@ -32,6 +32,9 @@ public class GameSettings{
 		return maxSplits;
 	}
     
+    /**
+     * @return an default instance of GameSettings
+     */
     public static GameSettings defaultSettings() {
     	return new GameSettings(true, true, false, 3);
     }

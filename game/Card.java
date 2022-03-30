@@ -18,6 +18,10 @@ public class Card {
         this.cardValue = cv;
     }
     
+    /**
+     * generates one normal card deck of 52 cards
+     * @return the list of cards (card deck)
+     */
     public static List<Card> generateCardDeck() {
         List<Card> cards = new ArrayList<>();
         for (String color: colors) {
@@ -60,6 +64,7 @@ public class Card {
         
         private int value;
         private String name;
+        
         CardValue(String name, int value) {
             this.value = value;
             this.name = name;

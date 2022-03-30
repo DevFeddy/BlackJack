@@ -8,16 +8,14 @@ public class Coupier
 {
   Hand hand;
   
-  /*
-   * public Card getClossedCard(){
-      Hand.getCards().get(0);
-  }
-   */
-  
   public Coupier() {
 	  this.hand = new Hand(0);
   }
   
+  /**
+   * players can see the first card of the coupier while playing
+   * @return the first card of the coupier
+   */
   public Card getOpenCard(){
       //hand.getCards().get(0);
       return hand.getCards().get(1);

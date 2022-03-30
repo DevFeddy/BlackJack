@@ -33,6 +33,11 @@ public class TopBar extends JPanel {
 		this.repaint();
 	}
 	
+	/**
+	 * changes the name and amount of coins shown by the TopBar
+	 * @param name
+	 * @param walletAmount
+	 */
 	public void change(String name, int walletAmount) {
 		this.name = name; 
 		this.walletAmount = walletAmount;
@@ -47,6 +52,9 @@ public class TopBar extends JPanel {
 		this.repaint();
 	}
 	
+	/**
+	 * sets the bounds of the nameLabel so that it is centered
+	 */
 	private void setMiddleBounds() {
 		FontMetrics metrics = this.nameLabel.getFontMetrics(this.nameLabel.getFont());
 		int x = this.getWidth() / 2; 

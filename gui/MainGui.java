@@ -34,6 +34,9 @@ public class MainGui extends JFrame {
 		this.setVisible(true);
 	}
 	
+	/**
+	 * sets up the gui for a new game
+	 */
 	private void setupGui() {
 		
 		this.topBar = new TopBar(this.game.getCurrentPlayer().getName(), this.game.getCurrentPlayer().getWallet().getcurrentAmount(),
@@ -48,6 +51,9 @@ public class MainGui extends JFrame {
 		
 	}
 	
+	/**
+	 * the first setup after starting the program
+	 */
 	private void firstSetup() {
 		Player[] players = this.getPlayers();
 		
@@ -60,6 +66,10 @@ public class MainGui extends JFrame {
 		setupGui();
 	}
 	
+	/**
+	 * ask the user for the amount of players & their names
+	 * @return an array with the players
+	 */
 	private Player[] getPlayers() {
 		String s;
 		
@@ -80,6 +90,9 @@ public class MainGui extends JFrame {
 		return player;
 	}
 	
+	/**
+	 * asks the players for their bets
+	 */
 	private void betRound()  {
 		for (Player p : this.game.getPlayers()) {
 			String s;
@@ -93,12 +106,19 @@ public class MainGui extends JFrame {
 		}
 	}
 	
+	/**
+	 * changes topBar to new player name & coins amount
+	 */
 	public void afterPlayerRound() {
 		this.topBar.change(this.game.getCurrentPlayer().getName(), this.game.getCurrentPlayer().getWallet().getcurrentAmount());
 		this.topBar.repaint();
 	}
 	
-	public void newGame(Player... newPlayers) {
+	/**
+	 * starts a new game with the players of the last game <br>
+	 * players without sufficient coins are thrown out.
+	 */
+	public void newGame() {
 		Player[] players = this.game.getPlayers();
 		players = Arrays.stream(players)
 				.filter(p -> p.getWallet().getcurrentAmount() > 0)
@@ -120,6 +140,11 @@ public class MainGui extends JFrame {
 		this.setupGui();
 	}
 	
+	/**
+	 * checks if a String is convertible to an Integer
+	 * @param s
+	 * @return if it is convertible
+	 */
 	private boolean checkInt(String s) {
 		try {
 			Integer.parseInt(s);
