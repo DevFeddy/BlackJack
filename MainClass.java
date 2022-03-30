@@ -6,13 +6,18 @@ import java.util.Scanner;
 import game.Card;
 import game.Game;
 import game.Game.PlayerEndInfo;
+import gui.MainGui;
 import game.GameSettings;
 import game.Player;
 
 public class MainClass {
 	
 	public static void main(String[] args) {
-		new MainClass().start();
+		if (args.length > 0) {
+			new MainClass().start();
+		} else {
+			new MainGui(800, 600, "BlackJack");
+		}
 	}
 	
 	Scanner scanner;

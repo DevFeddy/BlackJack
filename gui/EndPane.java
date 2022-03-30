@@ -37,7 +37,6 @@ public class EndPane extends JPanel{
 			yVar += 30;
 		}
 		
-		//TODO buttons for new game or close window
 		this.startNewGame = new JButton("Start new Game");
 		int size = getSize(startNewGame.getText(), startNewGame) + 30;
 		this.startNewGame.setBounds((width - size) / 2, this.getHeight() - 50, size, 25);

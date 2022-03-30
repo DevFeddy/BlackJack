@@ -56,7 +56,7 @@ public class CurrentHandPane extends JPanel{
 		this.add(this.guiCoupCard);
 		this.add(this.unknownCard);
 		
-		//TODO add action buttons and cards for hand
+		//TODO add split & doubleBet
 		
 		this.takeCard = new JButton("take Card");
 		this.takeCard.setBounds(20, this.getHeight() - 50, this.buttonWidth(this.takeCard), 20);
@@ -82,21 +82,22 @@ public class CurrentHandPane extends JPanel{
 		
 	private void checkRound() {
 		if (this.game.getResult() != null) {
-			JOptionPane.showConfirmDialog(this, "Spiel vorbei");
+			JOptionPane.showOptionDialog(this, "Spiel zuende", "Spiel", JOptionPane.YES_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 			this.drawHand(true);
 			this.remove(takeCard);
 			this.remove(stop);
-			this.add(new EndPane(this.guiClass, this.game.getResult(), 0, GuiCard.HEIGHT + 50, this.getWidth(), this.getHeight() - GuiCard.HEIGHT - 50));
+			this.add(new EndPane(this.guiClass, this.game.getResult(), (int)(this.getWidth() * 0.2), GuiCard.HEIGHT + 50, (int) (this.getWidth() * 0.6), this.getHeight() - GuiCard.HEIGHT - 100));
 			this.repaint();
 			return;
 		}
 		
 		boolean change = !this.hand.equals(this.game.getCurrentPlayer().getCurrentHand());
 		if (change) {
-			JOptionPane.showConfirmDialog(this, "Hand vorbei");
+			JOptionPane.showOptionDialog(this, "Hand vorbei", "hand", JOptionPane.YES_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
 		}
 		if (!this.player.equals(this.game.getCurrentPlayer())) {
-			JOptionPane.showConfirmDialog(this, "Spieler vorbei");
+			JOptionPane.showOptionDialog(this, "Spieler vorbei", "Spieler", JOptionPane.YES_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 			this.guiClass.afterPlayerRound();
 			this.player = this.game.getCurrentPlayer();
 		}

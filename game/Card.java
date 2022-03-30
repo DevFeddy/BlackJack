@@ -46,7 +46,7 @@ public class Card {
         Ass("Ass", 11), 
         Bube("Bube", 10), 
         Dame("Dame", 10), 
-        Koenig("König", 10),
+        Koenig("Koenig", 10),
         K10("10", 10),
         K9("9", 9),
         K8("8", 8),

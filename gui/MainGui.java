@@ -1,24 +1,18 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import game.Game;
 import game.GameSettings;
 import game.Player;
-import game.Wallet;
 
 public class MainGui extends JFrame {
 	
-	OtherPlayerPanel nextPlayers;
-	OtherPlayerPanel playedPlayers;
 	TopBar topBar;
 	
 	CurrentHandPane handPane;
@@ -45,17 +39,8 @@ public class MainGui extends JFrame {
 		this.topBar = new TopBar(this.game.getCurrentPlayer().getName(), this.game.getCurrentPlayer().getWallet().getcurrentAmount(),
 				new Rectangle(0, 0, this.getWidth(), 40));
 		
-		
-		
-		int handX = (int) (this.getWidth() * 0.2);
-		int handY = 40;
-		int handWidth = (int) (this.getWidth() * 0.6);
-		int handHeight = (int) (this.getHeight() * 0.8 - handY);
-		
-		this.handPane = new CurrentHandPane(this, this.game, new Rectangle(handX, handY, handWidth, handHeight));
-		
-		this.handPane.setBounds(handX, handY, handWidth, handHeight); 
-		
+		this.handPane = new CurrentHandPane(this, this.game, new Rectangle(0, 40, this.getWidth(), this.getHeight() - 70));
+				
 		this.add(this.handPane);
 		this.add(this.topBar);
 		
@@ -109,11 +94,6 @@ public class MainGui extends JFrame {
 	}
 	
 	public void afterPlayerRound() {
-		Player[] playedPlayers = Arrays.copyOfRange(this.game.getPlayers(), 0, this.game.getPlayerIndex());
-		Player[] nextPlayers = Arrays.copyOfRange(this.game.getPlayers(), this.game.getPlayerIndex() + 1, this.game.getPlayers().length);
-	
-		//this.currentPlayer.setText(this.game.getCurrentPlayer().getName());
-		//TODO topline
 		this.topBar.change(this.game.getCurrentPlayer().getName(), this.game.getCurrentPlayer().getWallet().getcurrentAmount());
 		this.topBar.repaint();
 	}
