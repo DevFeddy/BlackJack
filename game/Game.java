@@ -182,7 +182,7 @@ public class Game
 	                
 	                if (this.gameSettings.isFiveCardCharlie()) {
 	                	if (hand.getCards().size() == 5) {
-	                		hInfo = new HandEndInfo(hand, hand.getBet()); //TODO verhältnis
+	                		hInfo = new HandEndInfo(hand, hand.getBet() * 2);
 	                	}
 	                }
                 } else {
